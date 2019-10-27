@@ -49,15 +49,17 @@ export function createEditor(domElement, moduleResolver = () => null) {
 
             if (rnode) {
                 const nodeIndex = ast.body.indexOf(rnode);
-                // 4. convert the React.createElement invocation to source
+                // 4. convert the React.createElement invocation to source and remove the trailing semicolon
                 const createElSrc = generateJs(rnode).slice(0, -1);
+                // 5. transform React.createElement(...) to render(React.createElement(...)), 
+                // where render is a callback passed from outside
                 const renderCallAst = Acorn.parse(`render(${createElSrc})`)
                     .body[0];
 
                 ast.body[nodeIndex] = renderCallAst;
             }
 
-            // 5. create a new wrapper function with all dependency as parameters
+            // 6. create a new wrapper function with all dependency as parameters
             return new Function("React", "render", "require", generateJs(ast));
         } catch (ex) {
             // in case of exception render the exception message
