@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/standalone": "^7.6.4",
-    "acorn": "^7.1.0",
+    "acorn": "^7.1.1",
     "debounce": "^1.2.0",
     "escodegen": "^1.12.0",
     "node-sass": "^4.13.0",
